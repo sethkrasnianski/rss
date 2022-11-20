@@ -1,0 +1,12 @@
+version: "3.8" # Requires Docker Engine 19.03.0+
+services:
+  db:
+    image: postgres:12.3
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=rss_dev
+    volumes:
+      - "./volumes/postgres:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
