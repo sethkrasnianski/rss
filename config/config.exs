@@ -10,6 +10,8 @@ import Config
 config :rss,
   ecto_repos: [Rss.Repo]
 
+config :rss, Rss.Repo, migration_timestamps: [type: :utc_datetime]
+
 # Configures the endpoint
 config :rss, RssWeb.Endpoint,
   url: [host: "localhost"],
