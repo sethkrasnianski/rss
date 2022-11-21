@@ -37,3 +37,35 @@ To start the server:
   * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+
+## Data Model
+
+```mermaid
+erDiagram
+    User ||--o{ Feed : has
+    User ||--o{ Collection : has
+    User ||--o{ CombinedFeed : has
+    Collection }|..|{ Feed : uses
+    CombinedFeed }|..|{ Feed : uses
+    User {
+      string name
+      string email
+      string password
+    }
+    Feed {
+        string title
+        string description
+        string feed_url
+        string icon_url
+    }
+    Collection {
+        string title
+        string description
+        string icon_url
+    }
+    CombinedFeed {
+        string title
+        string description
+        string icon_url
+    }
+```
