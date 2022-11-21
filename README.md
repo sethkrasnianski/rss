@@ -20,13 +20,14 @@ apt-get -y install libncurses5-dev \
                    inotify-tools
 ```
 
-Once `asdf` and its necessary dependencies are installed, you can simply run
+Once `asdf` and its necessary dependencies are installed you will need to add the Erlang and Elixir plugins and then install the project's specific versions
 ```sh
+asdf plugin add erlang
+asdf plugin add elixir
 asdf install
 ```
 
-This will leverage the `.tool-versions` file to install the currently required versions of Elixir and Erlang.
-
+This will leverage the `.tool-versions` file to install the currently required versions of Elixir and Erlang. 
 
 ## App
 
