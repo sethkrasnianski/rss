@@ -70,3 +70,8 @@ erDiagram
         string icon_url
     }
 ```
+
+Inspecting the data model at the database level:
+```sh
+docker-compose exec db psql -U postgres -d rss_dev
+```
