@@ -68,6 +68,13 @@ defmodule RssWeb.Router do
       on_mount: [{RssWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+
+      live "/feeds", FeedLive.Index, :index
+      live "/feeds/new", FeedLive.Index, :new
+      live "/feeds/:id/edit", FeedLive.Index, :edit
+
+      live "/feeds/:id", FeedLive.Show, :show
+      live "/feeds/:id/show/edit", FeedLive.Show, :edit
     end
   end
 

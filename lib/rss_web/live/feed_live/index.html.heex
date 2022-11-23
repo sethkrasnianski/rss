@@ -1,0 +1,43 @@
+<.header>
+  Listing Feeds
+  <:actions>
+    <.link patch={~p"/feeds/new"}>
+      <.button>New Feed</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="feeds" rows={@feeds} row_click={&JS.navigate(~p"/feeds/#{&1}")}>
+  <:col :let={feed} label="Title"><%= feed.title %></:col>
+  <:col :let={feed} label="Description"><%= feed.description %></:col>
+  <:col :let={feed} label="Feed url"><%= feed.feed_url %></:col>
+  <:col :let={feed} label="Icon url"><%= feed.icon_url %></:col>
+  <:action :let={feed}>
+    <div class="sr-only">
+      <.link navigate={~p"/feeds/#{feed}"}>Show</.link>
+    </div>
+    <.link patch={~p"/feeds/#{feed}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={feed}>
+    <.link phx-click={JS.push("delete", value: %{id: feed.id})} data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="feed-modal"
+  show
+  on_cancel={JS.navigate(~p"/feeds")}
+>
+  <.live_component
+    module={RssWeb.FeedLive.FormComponent}
+    id={@feed.id || :new}
+    title={@page_title}
+    action={@live_action}
+    feed={@feed}
+    navigate={~p"/feeds"}
+    current_user={@current_user}
+  />
+</.modal>
