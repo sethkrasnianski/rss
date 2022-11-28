@@ -2,11 +2,12 @@ defmodule RssWeb.FeedLive.Index do
   use RssWeb, :live_view
 
   alias Rss.Feeds
+  alias Rss.UserFeeds
   alias Rss.Feeds.Feed
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :feeds, list_feeds())}
+    {:ok, assign(socket, :feeds, list_feeds(socket.assigns.current_user.id))}
   end
 
   @impl true
@@ -17,7 +18,7 @@ defmodule RssWeb.FeedLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Feed")
-    |> assign(:feed, Feeds.get_feed!(id))
+    |> assign(:feed, UserFeeds.get_feed!(socket.assigns.current_user.id, id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -34,13 +35,14 @@ defmodule RssWeb.FeedLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    feed = Feeds.get_feed!(id)
+    user_id = socket.assigns.current_user.id
+    feed = UserFeeds.get_feed!(user_id, id)
     {:ok, _} = Feeds.delete_feed(feed)
 
-    {:noreply, assign(socket, :feeds, list_feeds())}
+    {:noreply, assign(socket, :feeds, list_feeds(user_id))}
   end
 
-  defp list_feeds do
-    Feeds.list_feeds()
+  defp list_feeds(user_id) do
+    UserFeeds.list_feeds(user_id)
   end
 end
